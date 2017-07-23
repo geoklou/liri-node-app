@@ -59,21 +59,43 @@ switch (command) {
       id: spkeys.clientId,
       secret: spkeys.clientSecret
     });
+    //if user did not input a song name, default to The Sign by Ace of Base
+    if (songName === ""){
+    spotify.search({ type: 'track,artist', query: 'the sign,Ace of Base' }, function(err, data) {
     
+    if ( err ) {
+        console.log('Error occurred: ' + err);
+        return;
+    }
+   
+    console.log("Artist/s: " + data.tracks.items[0].album.artists[0].name);
+    console.log("Name of the Song: " + data.tracks.items[0].name);
+    //this value is not found 
+    console.log("Preview: " + data.tracks.items[0].album.artists[0].preview_url);
+    console.log("Album: " + data.tracks.items[0].album.name);
+    console.log("----------------------------------------------------------------------");
+    
+    }); 
+    }
+
+    else {
+
     spotify.search({ type: 'track', query: songName }, function(err, data) {
     if ( err ) {
         console.log('Error occurred: ' + err);
         return;
     }
-    // console.log(data);
-    // console.log(JSON.stringify(data));   
+    //get schema to find values
+    // console.log(JSON.stringify(data)); 
     console.log("Artist/s: " + data.tracks.items[0].album.artists[0].name);
-    console.log("Song Title: " + songName);
-    //not able to figure out the object structure - deep, many branches. many repeat patterns & names
+    console.log("Name of the Song: " + data.tracks.items[0].name);
+    //this value is not found 
     console.log("Preview: " + data.tracks.items[0].album.artists[0].preview_url);
     console.log("Album: " + data.tracks.items[0].album.name);
     console.log("----------------------------------------------------------------------");
+    
     });
+    }
     break;
 
   case "movie-this":
